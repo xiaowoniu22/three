@@ -1,33 +1,43 @@
 import * as THREE from 'three';
 import * as YUKA from 'yuka';
+import { createRoad } from './components/THREEg'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import React, { useRef, useEffect, useState, Suspense } from 'react';
 const pointArr = [
-    25, 0, -25,
-    25, 0, 25,
-
-    25, 0, 25,
-    -25, 0, 25,
-
-    -25, 0, 25,
-    -25, 0, -25,
-
-    -25, 0, -25,
-    25, 0, -25,
-
-
-    20, 0, -20,
-    -20, 100, -20,
-
-    -20, 100, -20,
-    -20, 150, 20,
-
-    -20, 150, 20,
-    20, 200, 20,
-
-    20, 200, 20,
-    20, 0, -20,
+    -6, 0, 10,
+    -1, 0, 10,
+    3, 0, 4,
+    6, 0, 1,
+    11, 0, 2,
+    13, 0, 6,
+    9, 1, 9,
+    4, 1, 7,
+    1, 1, 1,
+    0, 1, -5,
+    2, 0, -9,
+    8, 0, -10,
+    13, 0, -5,
+    14, 1, 2,
+    10, 3, 7,
+    2, 1, 8,
+    -4, 3, 7,
+    -8, 1, 1,
+    -9, 1, -4,
+    -6, 1, -9,
+    0, 1, -10,
+    7, 1, -7,
+    // 5, 2, 0,
+    // 0, 2, 2,
+    // -5, 1, 0,
+    // -7, 2, -5,
+    // -8, 2, -9,
+    // -11, 2, -10,
+    // -14, 1, -7,
+    // -13, 1, -2,
+    -14, 0, 3,
+    -11, 0, 10,
+    -6, 0, 10
 ];
 
 const App = () => {
@@ -65,6 +75,7 @@ const App = () => {
     dirLight.shadow.camera.far = 800;
     scene.add(dirLight);
 
+
     const vehicle = new YUKA.Vehicle();
 
     const sync = (entity, renderComponent) => {
@@ -78,25 +89,42 @@ const App = () => {
     // path.add(new YUKA.Vector3(-4, 0, -4));
     // path.add(new YUKA.Vector3(0, 0, 0));
     // path.add(new YUKA.Vector3(-4, 0, 4));
-    path.add(new YUKA.Vector3(22, 0.1, -22));
-    path.add(new YUKA.Vector3(22, 0.1, 22));
-    path.add(new YUKA.Vector3(-22, 0.1, 22));
-    path.add(new YUKA.Vector3(-22, 0.1, -22));
-    // path.add(new YUKA.Vector3(22, -22, 0));
-    // path.add(new YUKA.Vector3(-20, -20, 0));
-    //  path.add(new YUKA.Vector3(-6, 0, 4));
-    // path.add(new YUKA.Vector3(0, 0, 6));
+    path.add(new YUKA.Vector3(-6, 0, 10));
+    path.add(new YUKA.Vector3(-1, 0, 10));
+    path.add(new YUKA.Vector3(3, 0, 4));
+    path.add(new YUKA.Vector3(6, 0, 1));
+    path.add(new YUKA.Vector3(11, 0, 2));
+    path.add(new YUKA.Vector3(13, 0, 6));
+    path.add(new YUKA.Vector3(9, 1, 9,));
+    path.add(new YUKA.Vector3(4, 1, 7));
+    path.add(new YUKA.Vector3(1, 1, 1));
+    path.add(new YUKA.Vector3(0, 1, -5));
+    path.add(new YUKA.Vector3(2, 0, -9));
+    path.add(new YUKA.Vector3(8, 0, -10));
+    path.add(new YUKA.Vector3(13, 0, -5));
+    path.add(new YUKA.Vector3(14, 1, 2));
+    path.add(new YUKA.Vector3(10, 3, 7));
+    path.add(new YUKA.Vector3(2, 1, 8));
+    path.add(new YUKA.Vector3(-4, 3, 7));
+    path.add(new YUKA.Vector3(-8, 1, 1));
+    path.add(new YUKA.Vector3(-9, 1, -4));
+    path.add(new YUKA.Vector3(-6, 1, -9));
+    path.add(new YUKA.Vector3(0, 1, -10));
+    path.add(new YUKA.Vector3(7, 1, -7));
+    path.add(new YUKA.Vector3(-14, 0, 3));
+    path.add(new YUKA.Vector3(-11, 0, 10));
+    path.add(new YUKA.Vector3(-6, 0, 10));
 
     path.loop = true;
 
     vehicle.position.copy(path.current());
-    vehicle.maxSpeed = 7;
+    vehicle.maxSpeed = 3;
 
     const followPathBehavior = new YUKA.FollowPathBehavior(path, 3);
     vehicle.steering.add(followPathBehavior);
 
     const onPathBehavior = new YUKA.OnPathBehavior(path);
-    onPathBehavior.radius = 2;
+    onPathBehavior.radius = 3;
     vehicle.steering.add(onPathBehavior);
 
     const entityManager = new YUKA.EntityManager();
@@ -109,7 +137,7 @@ const App = () => {
         scene.add(model);
 
         model.matrixAutoUpdate = false;
-        // vehicle.scale = new YUKA.Vector3(1, 1, 1);
+        vehicle.scale = new YUKA.Vector3(0.2, 0.2, 0.2);
         // vehicle.rotation = new YUKA.Quaternion();
         vehicle.setRenderComponent(model, sync);
     });
@@ -126,8 +154,8 @@ const App = () => {
 
     const lineMaterial = new THREE.LineDashedMaterial({
         color: 0xffffff,//线段的颜色
-        dashSize: 1,//短划线的大小
-        gapSize: 3,//短划线之间的距离
+        dashSize: 0.1,//短划线的大小
+        gapSize: 0.3,//短划线之间的距离
         linewidth: 3
     });
     const lines = new THREE.LineLoop(lineGeometry, lineMaterial);
@@ -149,6 +177,15 @@ const App = () => {
     let holePath = new THREE.Path(pointsArr2);
     // 从外层中掏空内层，就形成马路框框的形状了
     shape.holes.push(holePath);
+
+
+    var lengthSegments = 1000;
+    var trackDistances = [-0.6, -0.6, -0.1, 0.1, 0.5, 0.51];
+
+    var gRoad = new THREE.BufferGeometry();
+    gRoad.createRoad = createRoad;
+    gRoad.createRoad(pointArr, lengthSegments, trackDistances)
+
     var geometry1 = new THREE.ShapeGeometry(shape);
     var material1 = new THREE.MeshPhongMaterial({
         color: new THREE.Color('#546E90'),
@@ -156,7 +193,28 @@ const App = () => {
     });
     var mesh2 = new THREE.Mesh(geometry1, material1);
     mesh2.rotateX(Math.PI / 2);
-    scene.add(mesh2);
+    // scene.add(mesh2);
+
+
+
+    let tex = new THREE.TextureLoader().load('CentralMarking.png');
+    tex.wrapS = THREE.RepeatWrapping;
+    //tex.wrapT = THREE.RepeatWrapping;
+    tex.repeat.set(lengthSegments * 2);
+
+    var material = [
+        new THREE.MeshBasicMaterial({ color: 0x000000, side: THREE.DoubleSide }),
+        new THREE.MeshBasicMaterial({ color: 0x546E90, side: THREE.DoubleSide }),
+        new THREE.MeshBasicMaterial({ color: 0x546E90, side: THREE.DoubleSide }),
+        new THREE.MeshBasicMaterial({ color: 0x546E90, side: THREE.DoubleSide }),
+        // new THREE.MeshBasicMaterial({ color: 0xc3c3c3, side: THREE.DoubleSide }),
+        // new THREE.MeshBasicMaterial({ color: 0xc3c3c3, side: THREE.DoubleSide }),
+        // new THREE.MeshBasicMaterial({ color: 0x000000, side: THREE.DoubleSide }),
+
+    ];
+    var mesh3 = new THREE.Mesh(gRoad, material);
+    scene.add(mesh3);
+
 
     const time = new YUKA.Time();
 
