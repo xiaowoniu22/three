@@ -11,6 +11,7 @@ import Point from './Map'
 import Road from './Road'
 import RunningCar from './RunningCar'
 import WindingRoad from './WindingRoad'
+import RobotArm from './RobotArm'
 
 const App = () => {
   return (
@@ -24,6 +25,8 @@ const App = () => {
         <Route path="/road" element={<Road />} />
         <Route path="/runningCar" element={<RunningCar />} />
         <Route path="/windingRoad" element={<WindingRoad />} />
+        <Route path="/robotArm" element={<RobotArm />} />
+
       </Routes>
     </BrowserRouter>
     // <div className="App">
