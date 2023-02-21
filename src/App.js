@@ -12,6 +12,7 @@ import Road from './Road'
 import RunningCar from './RunningCar'
 import WindingRoad from './WindingRoad'
 import RobotArm from './RobotArm'
+import MoonPhase from './MoonPhase'
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
         <Route path="/runningCar" element={<RunningCar />} />
         <Route path="/windingRoad" element={<WindingRoad />} />
         <Route path="/robotArm" element={<RobotArm />} />
+        <Route path="/moonPhase" element={<MoonPhase />} />
 
       </Routes>
     </BrowserRouter>
